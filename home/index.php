@@ -32,6 +32,10 @@ include_once("../func/consolelog.php");
 	echo $eng."<br>";
 	$twn=preg_replace("/<.*?>/","",$text2[1]);
 	$twn=str_replace("&nbsp;","",$twn);
+	$text=file_get_contents("https://tw.dictionary.yahoo.com/dictionary?p=".$word["word"]);
+	preg_match('/<p class="explanation">(\S*?)<\/p>/',$text,$match);
+	$twn2=$match[1];
+	consolelog($match);
 ?>
 <script>
 function showtwn(){
@@ -39,7 +43,7 @@ function showtwn(){
 	twn2.style.display="";
 }
 </script>
-<div id="twn1" onClick="showtwn();">顯示中文翻譯</div>
+<div id="twn1" onClick="showtwn();">顯示例句中文翻譯</div>
 <div id="twn2" style="display:none"><?php echo $twn; ?></div>
 <br>
 <script>
@@ -59,14 +63,16 @@ function show(){
 		wrong.style.display="";
 		correctanswer.style.display="";
 	}
+	word.style.display="";
 }
 </script>
 <input id="answerinput" name="answerinput" type="text"><input type="button" value="送出" onclick="show();">
 <hr>
-<div id="youranswer" style="background-color:#0FF; width:500px;">Your Answer:</div>
-<div id="correct" style=" display:none; background-color:#0F0; width:500px; height:30px">Correct</div>
-<div id="wrong" style=" display:none; background-color: #F00; width:500px; height:30px">Wrong</div>
-<div id="correctanswer" style=" display:none; background-color:#0F0; width:500px; height:30px">Correct Answer: <?php echo $ans; ?></div>
+<div id="youranswer" style="background-color:#0FF; width:100%;">Your Answer:</div>
+<div id="correct" style=" display:none; background-color:#0F0; width:100%; height:30px">Correct</div>
+<div id="wrong" style=" display:none; background-color: #F00; width:100%; height:30px">Wrong</div>
+<div id="correctanswer" style=" display:none; background-color:#0F0; width:100%; height:30px">Correct Answer: <?php echo $ans; ?></div>
+<div id="word" style=" display:none; width:100%;"><?php echo $word["word"]." : ".$twn2; ?></div>
 </h2>
 </center>
 </body>
