@@ -1,79 +1,71 @@
-<!DOCTYPE html>
+<html>
 <?php
-ini_set('display_errors', 1);
 include_once("../func/sql.php");
 include_once("../func/url.php");
-include_once("../func/checklogin.php");
-include_once("../func/consolelog.php");
+ini_set('display_errors', 1);
 ?>
 <head>
 <meta charset="UTF-8">
 <title>EngWd</title>
 <?php
-//include_once("../res/meta.php");
-//meta();
+include_once("../res/meta.php");
+meta();
 ?>
 </head>
-<body Marginwidth="-1" Marginheight="-1" Topmargin="0" Leftmargin="0">
-<center>
-<h2>
+<body topmargin="0" leftmargin="0" bottommargin="0">
 <?php
-	$count=mfa(SELECT(array("COUNT(*) AS `COUNT`"),"engwd_wordlist"))["COUNT"];
-	$word=mfa(SELECT("*","engwd_wordlist",null,null,array(rand(0,$count-1),1)));
-	$text=file_get_contents("http://dict.dreye.com/dj/index.php?dw=".$word["word"]);
-	$text=explode("<br><br>",$text);
-	if(count($text)<=3)header("Location: index.php");
-	$rand=rand(1,count($text)-3);
-	$text2=explode("<br>",$text[$rand]);
-	$eng=preg_replace("/<.*?>/","",$text2[0]); 
-	preg_match("/".substr($word["word"],0,strlen($word["word"])-1)."[a-zA-Z]*/",$eng,$match);
-	$ans=$match[0];
-	$eng=str_replace($word["word"],$word["word"][0]."___".$word["word"][strlen($word["word"])-1],$eng);
-	echo $eng."<br>";
-	$twn=preg_replace("/<.*?>/","",$text2[1]);
-	$twn=str_replace("&nbsp;","",$twn);
-	$text=file_get_contents("https://tw.dictionary.yahoo.com/dictionary?p=".$word["word"]);
-	preg_match('/<p class="explanation">(\S*?)<\/p>/',$text,$match);
-	$twn2=$match[1];
-	consolelog($match);
+include_once("../res/header.php");
 ?>
-<script>
-function showtwn(){
-	twn1.style.display="none";
-	twn2.style.display="";
-}
-</script>
-<div id="twn1" onClick="showtwn();">顯示例句中文翻譯</div>
-<div id="twn2" style="display:none"><?php echo $twn; ?></div>
-<br>
-<script>
-var ans="<?php echo $ans; ?>";
-function show(){
-	var ya=answerinput.value;
-	ya=ya.replace(/[^a-zA-Z]/g,"");
-	if(ya=="")return 0;
-	youranswer.innerHTML="Your Answer: "+ya;
-	if(ya==ans){
-		correct.style.display="";
-		wrong.style.display="none";
-		correctanswer.style.display="none";
-	}
-	else {
-		correct.style.display="none";
-		wrong.style.display="";
-		correctanswer.style.display="";
-	}
-	word.style.display="";
-}
-</script>
-<input id="answerinput" name="answerinput" type="text"><input type="button" value="送出" onclick="show();">
-<hr>
-<div id="youranswer" style="background-color:#0FF; width:100%;">Your Answer:</div>
-<div id="correct" style=" display:none; background-color:#0F0; width:100%; height:30px">Correct</div>
-<div id="wrong" style=" display:none; background-color: #F00; width:100%; height:30px">Wrong</div>
-<div id="correctanswer" style=" display:none; background-color:#0F0; width:100%; height:30px">Correct Answer: <?php echo $ans; ?></div>
-<div id="word" style=" display:none; width:100%;"><?php echo $word["word"]." : ".$twn2; ?></div>
-</h2>
+<center>
+<table border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td colspan="3" class="dfromh">&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="420" valign="top">
+		<strong>開發者</strong>
+		<hr>
+		<table border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td valign="top"><img src = 'https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/1619090_288040611401620_7201738893173011477_n.jpg?oh=6104f5511cf012c7e6a486d95f7d0760&oe=5552D150&__gda__=1432210833_ffaa247f6cabe37a277a98f32a1cb670' width="100" height="100"></img></td>
+				<td>
+				<p>
+				<strong>Xiplus</strong><br>
+				迷戀於各種API，並且已經產生了許多有用的代碼片段，其中一個包括透過Facebook來提醒你記得訂午餐（譯者注：這個沒有使用API）。
+				</p>
+				<p>
+				如果看到拿著藍牙鍵盤在電腦教室的一端，而筆電在教室另一端，那麼很可能只是在測試無線鍵盤距離多遠還能夠收得到訊號。
+				</p>
+				<p style="text-align: right">
+				<a title = "facebook" href = "http://www.facebook.com/profile.php?id=100005870494945" class = 'icon' style = "margin: 0 4px" target="_blank">Facebook</a>
+				<a title = "github" href = "http://github.com/xi-plus" class = 'icon' style = "margin: 0 4px" target="_blank">GitHub</a>
+				</p>
+				<p style="text-align: right">
+				撰寫：John / 翻譯：Xiplus &amp; Google
+				</p>
+				</td>
+			</tr>
+		</table>
+		</td>
+		<td width="100"></td>
+		<td width="320" valign="top">
+		<strong>簡介</strong>
+		<hr>
+		<p><strong>EngWd (English Word)</strong>是一個開放原始碼專案，原始碼皆可在<a href = "https://github.com/Xi-Plus/ENGWD" target="_blank">GitHub</a>上找到。</p>
+		<p>此用來背英文單字</p>
+		<p>如果有興趣的話，你可以關注我們的發展或是對於此專案建立一個分支來做出貢獻。</p>
+		
+		<strong>更新日誌</strong>
+		<hr>
+		<table border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td width="100" valign="top">2015.02.22</td>
+			<td>開始開發</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
 </center>
 </body>
 </html>
