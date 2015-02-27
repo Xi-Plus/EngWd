@@ -68,7 +68,7 @@ function show(){
 	word.style.display="";
 }
 </script>
-<input id="answerinput" name="answerinput" type="text"><input type="button" value="送出" onclick="show();">
+<input id="answerinput" name="answerinput" type="text" onload="this.focus();this.select();"><input type="button" value="送出" onclick="show();">
 <hr>
 <div id="youranswer" style="background-color:#0FF; width:100%;">Your Answer:</div>
 <div id="correct" style=" display:none; background-color:#0F0; width:100%; height:30px">Correct</div>
